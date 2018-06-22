@@ -3,7 +3,7 @@ require "objects"
 Player = Entity:extend()
 
 function Player:new(normal_state, x, y)
-    Player.super.new(self, x, y, "@", {255, 160, 160})
+    Player.super.new(self, x, y, "@", {1, 0.7, 0.5})
     self.normal_state = normal_state
 end
 

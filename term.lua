@@ -3,7 +3,7 @@
 local term = {}
 local board = {}
 
-local white = {255, 255, 255}
+local white = {1, 1, 1}
 local black = {0, 0, 0}
 
 function term.init(width, height, font, char_height, char_width)
