@@ -1,41 +1,25 @@
 local term = require "term"
+require "objects"
+require "normal_state"
+utils = require "lib/utils"
 
-local px = 40
-local py = 16
+normal_state = NormalState()
+current_state = normal_state
+
 function love.load()
     char_size = 16
     font_name = "data/AnonymousProMinus-1.003/Anonymous Pro Minus.ttf"
     font = love.graphics.newFont(font_name, char_size)
-    term.init(80, 32, font)
+    term.init(90, 40, font)
     love.window.setMode(term.width * term.char_width, term.height * term.char_height)
-    term.board[py][px][1] = '@'
 end
 
 function love.draw()
+    term.clear()
+    current_state:render()
     term.render()
 end
 
-local clamp = function(x, a, b)
-    if x < a then
-        return a
-    elseif x > b then
-        return b
-    end
-    return x
-end
-
 function love.keypressed( key, scancode, isrepeat ) 
-    term.board[py][px][1] = ' '
-    if key == 'up' then
-        py = py - 1
-    elseif key == 'down' then
-        py = py + 1
-    elseif key == 'left' then
-        px = px - 1
-    elseif key == 'right' then
-        px = px + 1
-    end
-    px = clamp(px, 1, 80)
-    py = clamp(py, 1, 32)
-    term.board[py][px][1] = '@'
+    return current_state:keypressed(key)
 end
