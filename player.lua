@@ -18,8 +18,8 @@ function Player:keypressed(key)
         self.x = self.x + 1
     end
 
-    self.x = utils.clamp(self.x, 1, 80)
-    self.y = utils.clamp(self.y, 1, 30)
+    self.x = utils.clamp(self.x, 1, MAP_WIDTH)
+    self.y = utils.clamp(self.y, 1, MAP_HEIGHT)
 end
 
 return Player
