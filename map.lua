@@ -13,6 +13,8 @@ function Map:new(width, height, default_tile)
             self.tiles[i][j] = default_tile
         end
     end
+    
+    self.spawn_pos = {math.floor(self.width / 2), math.floor(self.height / 2)}
 end
 
 function Map:out_range(x, y)

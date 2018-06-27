@@ -82,7 +82,7 @@ local function open_door(map, room)
     -- random choice a result
     if #opened_doors > 0 and (#opened_doors > 3 or love.math.random() < 0.6) then
         local selected = opened_doors[love.math.random(1, #opened_doors)]
-        return selected[1]
+        return selected[2]
     else
         -- need open new door
         assert(next(new_doors) ~= nil)
@@ -133,9 +133,6 @@ local function connect_room(map, start_pos, end_pos)
         f = f + 1
     end
     -- should find path
-    if not find then
-        return
-    end
     assert(find)
 
     -- fill path with road tile
@@ -190,7 +187,10 @@ local function try_generate(width, height)
     end
     
     add_roads(map, rooms)
-
+    local spawn_room = rooms[love.math.random(1, #rooms)]
+    map.spawn_pos = { love.math.random(spawn_room[1] + 1, spawn_room[1] + spawn_room[3] - 2),
+                      love.math.random(spawn_room[2] + 1, spawn_room[2] + spawn_room[4] - 2) }
+                      
     return map
 end
 

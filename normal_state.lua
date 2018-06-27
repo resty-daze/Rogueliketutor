@@ -9,7 +9,7 @@ NormalState = Object:extend()
 function NormalState:new()
     self.entity_list = {}
     self.map = Generators.room_map(MAP_WIDTH, MAP_HEIGHT)
-    self.player = Player(self, 20, 20)
+    self.player = Player(self, self.map.spawn_pos[1], self.map.spawn_pos[2])
     self:add_entity(self.player)
 end
 
