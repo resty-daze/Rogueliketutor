@@ -2,13 +2,13 @@ local Object = require "lib/classic"
 local term = require "term"
 local Player = require "player"
 local Map = require "map"
-local Tiles = require "tiles"
+local Generators = require "map_generator"
 
 NormalState = Object:extend()
 
 function NormalState:new()
     self.entity_list = {}
-    self.map = Map(MAP_WIDTH, MAP_HEIGHT, Tiles.room_floor)
+    self.map = Generators.room_map(MAP_WIDTH, MAP_HEIGHT)
     self.player = Player(self, 20, 20)
     self:add_entity(self.player)
 end

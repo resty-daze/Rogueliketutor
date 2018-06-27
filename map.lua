@@ -15,6 +15,10 @@ function Map:new(width, height, default_tile)
     end
 end
 
+function Map:out_range(x, y)
+    return x < 1 or x > self.width or y < 1 or y > self.height
+end
+
 function Map:set_tile(x, y, tile)
     self.tiles[y][x] = tile
 end

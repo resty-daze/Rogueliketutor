@@ -3,10 +3,11 @@ require "objects"
 require "normal_state"
 utils = require "lib/utils"
 
-normal_state = NormalState()
-current_state = normal_state
-
 function love.load()
+    if arg[#arg] == "-debug" then require("mobdebug").start() end
+    normal_state = NormalState()
+    current_state = normal_state
+    
     char_size = 16
     font_name = "data/AnonymousProMinus-1.003/Anonymous Pro Minus.ttf"
     font = love.graphics.newFont(font_name, char_size)

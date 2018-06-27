@@ -10,7 +10,7 @@ local tiles = {
     wall_hori = Tile("-", white, true, true, true),
     wall_corn = Tile("+", white, true, true, true),
     room_floor = Tile(".", grey, false, false, false),
-    passage = Tile("#", grey, false, false, false),
+    road = Tile("#", grey, false, false, false),
 }
 
 return tiles
