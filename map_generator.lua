@@ -1,6 +1,7 @@
 local Map = require "map"
 local Object = require "lib/classic"
 local Tiles = require "tiles"
+local utils = require "lib/utils"
 
 local generators = {}
 local next = next
@@ -96,17 +97,9 @@ local dx = {0, -1, 0, 1}
 local dy = {-1, 0, 1, 0}
 local function connect_room(map, start_pos, end_pos)
     local queue = {{start_pos, 0}}
-    local visit = {}
+    local visit = utils.table2d(map.height, map.width, false)
     local f = 1
     
-    -- init visit table
-    for i = 1, map.height do
-        row = {}
-        visit[i] = row
-        for j = 1, map.width do
-            row[j] = false
-        end
-    end
     visit[start_pos[2]][start_pos[1]] = true
 
     -- bfs for shorest path

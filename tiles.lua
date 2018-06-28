@@ -1,7 +1,7 @@
 require "objects"
 local black = {0, 0, 0}
 local white = {1, 1, 1}
-local grey = {0.5, 0.5, 0.5}
+local grey = {0.7, 0.7, 0.7}
 
 -- char, color, block_sight, block_move, block_fly
 local tiles = {

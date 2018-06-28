@@ -11,6 +11,7 @@ function NormalState:new()
     self.map = Generators.room_map(MAP_WIDTH, MAP_HEIGHT)
     self.player = Player(self, self.map.spawn_pos[1], self.map.spawn_pos[2])
     self:add_entity(self.player)
+    self.map:update_fov(self.player.x, self.player.y)
 end
 
 function NormalState:add_entity(entity)

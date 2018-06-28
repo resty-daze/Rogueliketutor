@@ -8,4 +8,16 @@ function utils.clamp(x, a, b)
     return x
 end
 
+function utils.table2d(rows, cols, value)
+    local t = {}
+    for i = 1, rows do
+        local r = {}
+        t[i] = r
+        for j = 1, cols do
+            r[j] = value
+        end
+    end
+    return t
+end
+
 return utils

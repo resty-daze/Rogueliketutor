@@ -32,6 +32,7 @@ function Player:keypressed(key)
     end
     self.x = nx
     self.y = ny
+    map:update_fov(self.x, self.y)
 end
 
 return Player
