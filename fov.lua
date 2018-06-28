@@ -1,8 +1,8 @@
 -- calculate field of view
 local Tiles = require "tiles"
 
-local dx = {0, -1, 0, 1}
-local dy = {-1, 0, 1, 0}
+local dx = {0, -1, 0, 1, -1, -1, 1, 1}
+local dy = {-1, 0, 1, 0, 1, -1, 1, -1}
 
 local function dist_sqr(pos1, pos2)
     local dx = pos1[1] - pos2[1]
@@ -11,7 +11,7 @@ local function dist_sqr(pos1, pos2)
 end
 
 local function mandist(pos1, pos2)
-    return math.abs(pos1[1] - pos2[1]) + math.abs(pos1[2] - pos2[2])
+    return math.max(math.abs(pos1[1] - pos2[1]), math.abs(pos1[2] - pos2[2]))
 end
 
 local fov = {}
@@ -35,10 +35,11 @@ function fov.field_of_view(map, stand_point)
         local dist = queue[f][2]
         local tile = map:get_tile(pos[1], pos[2])
         if (in_room and tile == Tiles.room_floor) or 
-            (not tile.block_sight and dist_sqr(stand_point, pos) <= 9 and dist == mandist(stand_point, pos)) then
-            for i = 1, 4 do
+            (not tile.block_sight and dist_sqr(stand_point, pos) <= 9) then
+            for i = 1, 8 do
                 local new_pos = {pos[1] + dx[i], pos[2] + dy[i]}
-                if not map:out_range(unpack(new_pos)) and not visit[new_pos[2]][new_pos[1]] then
+                if not map:out_range(unpack(new_pos)) and not visit[new_pos[2]][new_pos[1]]
+                   and dist + 1 == mandist(stand_point, new_pos) then
                     visit[new_pos[2]][new_pos[1]] = true
                     queue[#queue + 1] = {new_pos, dist + 1}
                 end
