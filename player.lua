@@ -8,18 +8,30 @@ function Player:new(normal_state, x, y)
 end
 
 function Player:keypressed(key)
+    local nx = self.x
+    local ny = self.y
+
     if key == "up" then
-        self.y = self.y -1
+        ny = ny - 1
     elseif key == "down" then
-        self.y = self.y + 1
+        ny = ny + 1
     elseif key == "left" then
-        self.x = self.x - 1
+        nx = nx - 1
     elseif key == "right" then
-        self.x = self.x + 1
+        nx = nx + 1
     end
 
-    self.x = utils.clamp(self.x, 1, MAP_WIDTH)
-    self.y = utils.clamp(self.y, 1, MAP_HEIGHT)
+    local map = self.normal_state.map
+    if map:out_range(nx, ny) then
+        return
+    end
+
+    local tile = map:get_tile(nx, ny)
+    if tile.block_move then
+        return
+    end
+    self.x = nx
+    self.y = ny
 end
 
 return Player
