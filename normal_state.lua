@@ -19,7 +19,9 @@ function NormalState:add_entity(entity)
 end
 
 function NormalState:keypressed(key)
-    self.player:keypressed(key)
+    if self.player:keypressed(key) then
+        -- enemy's turn
+    end
 end
 
 function NormalState:render()
@@ -28,4 +30,6 @@ function NormalState:render()
         --print(entity)
         term.setchar(entity.x, entity.y, entity.char, entity.color)
     end
+
+    console:render()
 end

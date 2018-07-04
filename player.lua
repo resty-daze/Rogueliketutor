@@ -19,20 +19,30 @@ function Player:keypressed(key)
         nx = nx - 1
     elseif key == "right" then
         nx = nx + 1
+    else
+        return false
     end
 
     local map = self.normal_state.map
     if map:out_range(nx, ny) then
-        return
+        return true
+    end
+
+    local unit = map:find_unit_at(nx, ny)
+    if unit then
+        console:print("you try to hit " .. unit.char)
+        return true
     end
 
     local tile = map:get_tile(nx, ny)
     if tile.block_move then
-        return
+        console:print("you can't move this way")
+        return true
     end
     self.x = nx
     self.y = ny
     map:update_fov(self.x, self.y)
+    return true
 end
 
 return Player

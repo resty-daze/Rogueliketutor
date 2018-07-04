@@ -19,6 +19,15 @@ function Map:add_unit(u)
     self.units[#self.units + 1] = u
 end
 
+function Map:find_unit_at(x, y)
+    for _, u in ipairs(self.units) do
+        if u.x == x and u.y == y then
+            return u
+        end
+    end
+    return nil
+end
+
 function Map:out_range(x, y)
     return x < 1 or x > self.width or y < 1 or y > self.height
 end
