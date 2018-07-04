@@ -12,6 +12,11 @@ function Map:new(width, height, default_tile)
     self.seen = utils.table2d(height, width, false)
     
     self.spawn_pos = {math.floor(self.width / 2), math.floor(self.height / 2)}
+    self.units = {} -- non player units
+end
+
+function Map:add_unit(u)
+    self.units[#self.units + 1] = u
 end
 
 function Map:out_range(x, y)
@@ -38,6 +43,12 @@ function Map:render()
                 local darker_color = {tile.color[1] * rate, tile.color[2] * rate, tile.color[3] * rate}
                 term.setchar(j, i, tile.char, darker_color)
             end
+        end
+    end
+
+    for _, u in ipairs(self.units) do
+        if self.fov[u.y][u.x] then
+            term.setchar(u.x, u.y, u.char, u.color)
         end
     end
 end

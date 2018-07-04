@@ -2,6 +2,7 @@ local Map = require "map"
 local Object = require "lib/classic"
 local Tiles = require "tiles"
 local utils = require "lib/utils"
+local math = love.math
 
 local generators = {}
 local next = next
@@ -14,6 +15,19 @@ local function room_conflict(r1, r2)
         return false
     end
     return true
+end
+
+local function add_enemy(map, room, count)
+    local v = utils.table2d(map.height, map.width)
+    for i = 1, count do
+        local x, y
+        repeat
+            x = math.random(room[1] + 1, room[1] + room[3] - 2)
+            y = math.random(room[2] + 1, room[2] + room[4] - 2)
+        until not v[y][x]
+        v[y][x] = true
+        map:add_unit(Entity(x, y, 'o', {0.2, 0.7, 0.1}))
+    end
 end
 
 local function add_room(map, room)
@@ -142,7 +156,7 @@ local function add_roads(map, rooms)
     local n = #rooms
     -- connect each room to a random previous room
     for i = 2, n do
-        local dest_room_id = love.math.random(1, i - 1)
+        local dest_room_id = math.random(1, i - 1)
         local start_pos = open_door(map, rooms[i])
         local end_pos = open_door(map, rooms[dest_room_id])
         connect_room(map, start_pos, end_pos)
@@ -152,10 +166,10 @@ end
 local function try_generate(width, height)
     local rooms = {}
     for i = 1, 30 do
-        local rwidth = love.math.random(4, 16)
-        local rheight = love.math.random(4, 10)
-        local x = love.math.random(1, width - rwidth)
-        local y = love.math.random(1, height - rheight)
+        local rwidth = math.random(4, 16)
+        local rheight = math.random(4, 10)
+        local x = math.random(1, width - rwidth)
+        local y = math.random(1, height - rheight)
         local room = {x, y, rwidth, rheight}
         local no_conflict = true
         for _, r in ipairs(rooms) do
@@ -177,12 +191,13 @@ local function try_generate(width, height)
     local map = Map(width, height, Tiles.void)
     for _, r in ipairs(rooms) do
         add_room(map, r)
+        add_enemy(map, r, math.random(0, 3))
     end
     
     add_roads(map, rooms)
-    local spawn_room = rooms[love.math.random(1, #rooms)]
-    map.spawn_pos = { love.math.random(spawn_room[1] + 1, spawn_room[1] + spawn_room[3] - 2),
-                      love.math.random(spawn_room[2] + 1, spawn_room[2] + spawn_room[4] - 2) }
+    local spawn_room = rooms[math.random(1, #rooms)]
+    map.spawn_pos = { math.random(spawn_room[1] + 1, spawn_room[1] + spawn_room[3] - 2),
+                      math.random(spawn_room[2] + 1, spawn_room[2] + spawn_room[4] - 2) }
                       
     return map
 end
